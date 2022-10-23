@@ -1,23 +1,27 @@
 package com.company.calculator.controller;
 
 import com.company.calculator.service.CalculatorService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequiredArgsConstructor
+@RequestMapping("/calculator")
 public class CalculatorController {
 
     private final CalculatorService calculatorService;
 
-    @GetMapping("/calculator")
+    public CalculatorController(CalculatorService calculatorService) {
+        this.calculatorService = calculatorService;
+    }
+
+    @GetMapping()
     public String hello() {
         return "<b>Привет! Ты в калькуляторе!</b>";
     }
 
-    @GetMapping("/calculator/plus")
+    @GetMapping("/plus")
     public String plus(@RequestParam(name = "num1", required = false) Integer a,
                        @RequestParam(name = "num2",required = false) Integer b) {
         if (a == null || b ==null) return "Один из параметров не введен!!";
@@ -25,7 +29,7 @@ public class CalculatorController {
         return a + "+" + b + "=" + plus;
 
     }
-    @GetMapping("/calculator/minus")
+    @GetMapping("/minus")
     public String minus(@RequestParam(name = "num1", required = false) Integer a,
                         @RequestParam(name = "num2",required = false) Integer b) {
         if (a == null || b ==null) return "Один из параметров не введен!!";
@@ -33,21 +37,19 @@ public class CalculatorController {
         return a + "-" + b + "=" + minus;
 
     }
-    @GetMapping("/calculator/multiply")
+    @GetMapping("/multiply")
     public String multiply(@RequestParam(name = "num1", required = false) Integer a,
                            @RequestParam(name = "num2",required = false) Integer b) {
         if (a == null || b ==null) return "Один из параметров не введен!!";
         int multiply = calculatorService.multiply(a, b);
         return a + "*" + b + "=" + multiply;
     }
-    @GetMapping("/calculator/divide")
+    @GetMapping("/divide")
     public String divide(@RequestParam(name = "num1", required = false) Integer a,
                          @RequestParam(name = "num2",required = false) Integer b) {
         if (a == null || b ==null) return "Один из параметров не введен!!";
-        if (b==0) return "На ноль делить нельзя!";
         double divide = calculatorService.divide(a, b);
         return a + "/" + b + "=" + divide;
-
     }
 
 }

@@ -1,6 +1,7 @@
 package com.company.calculator.service;
 
 
+import com.company.calculator.exception.DivideByZeroException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,10 @@ public class CalculatorServiceImpl implements CalculatorService {
 
     @Override
     public double divide(Integer a, Integer b) {
-            return (double) a / b;
+        if (b==0) {
+            throw new DivideByZeroException("num2 не может равняться 0");
+        }
+        return a.doubleValue()/b;
     }
 }
+
